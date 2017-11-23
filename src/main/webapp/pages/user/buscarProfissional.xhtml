@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+
+        <f:view locale="#{localeController.currentLocale}">
+            <ui:composition template="/templates/template.xhtml">
+
+                <ui:define name="opcoesMenu">
+                    <f:facet name="options">
+                        <p:commandButton value="#{msg.sair}" icon="ui-icon-extlink" action="#{managedLogoutBean.logout()}"/>
+                    </f:facet>
+                </ui:define>
+
+                <ui:define name="body">
+                    <p:growl id="msgs" showDetail="true" />
+
+                    <h:form>
+                        <h:panelGrid>
+                            <p:panel header="Select a Location">
+                                <h:panelGrid columns="2" cellpadding="5">
+
+                                    <h:outputLabel for="profissao" value="#{msg.profissao}: " />
+                                    <p:selectOneMenu id="profissao" value="#{managedProfissionalBean.profissao}">
+                                        <f:selectItem itemLabel="Profissão" itemValue="#{null}" />
+                                        <f:selectItems value="#{managedProfissionalBean.listaProfissoes}" var="profissao" itemValue="#{profissao}" itemLabel="#{profissao.txtProfissoes}" />
+                                    </p:selectOneMenu>
+                                    
+                                    <h:outputLabel/>
+                                    <p:commandButton value="Buscar" actionListener="#{managedProfissionalBean.listarProfissionaisProfissoes}" update=":msgs :formListagemProfissionais:repeat:painelListagemProfissionais" icon="ui-icon-check" />
+                                </h:panelGrid>
+
+                            </p:panel>
+
+                        </h:panelGrid>
+                    </h:form>
+
+                    <h:form id="formListagemProfissionais">
+                        <p:repeat id="repeat" value="#{managedProfissionalBean.listaProfissionais}" var="profissional">
+                            <h:panelGrid id="painelListagemProfissionais" columns="2" style="width:100%" columnClasses="logo,detail">
+                                <!--                            <p:commandLink>
+                                                                <f:setPropertyActionListener value="#{profissional}" target="#{dataListView.selectedCar}" />
+                                                                <p:graphicImage name="demo/images/car/#{car.brand}-big.gif" /> 
+                                                            </p:commandLink>-->
+
+                                <p:outputPanel>
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <h:outputText value="Nome:" />
+                                        <h:outputText value="#{profissional.txtNome}" style="font-weight: bold"/>
+
+                                        <h:outputText value="Nome:" />
+                                        <h:outputText value="#{profissional.txtReputacao}" style="font-weight: bold"/>
+
+                                        <h:outputText value="Nome:" />
+                                        <h:outputText value="#{profissional.endTxtCidade}" style="font-weight: bold"/>
+
+                                        <h:outputText value="Nome:" />
+                                        <h:outputText value="#{profissional.endTxtCidade}" style="font-weight: bold"/>
+
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                            <hr />
+                        </p:repeat>
+</h:form>
+                    
+                </ui:define>
+            </ui:composition>
+        </f:view>
+    </h:body>
+</html>

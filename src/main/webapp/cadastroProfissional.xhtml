@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+
+    <h:body>
+        <f:view locale="#{localeController.currentLocale}">
+            <ui:composition template="/templates/template.xhtml">
+                <ui:define name="opcoesMenu">
+                    <f:facet name="options">
+                        <p:commandButton type="button" value="#{msg.sair}" icon="ui-icon-extlink" action="#{managedLogoutBean.logout()}"/>
+                    </f:facet>
+                </ui:define>
+
+                <ui:define name="body">
+
+                    <p:growl id="mensagem"/>
+                    <p:panel>
+                        <h:form id="formularioCadastroProfissional" enctype="multipart/form-data">
+                            <p:panelGrid columns="2">
+                                <h:outputLabel for="profissao" value="ProfissÃ£o: *"/>
+                                <p:inputText id="profissao" value="#{managedProfissionalBean.profissao}" validatorMessage="Ã‰ necessÃ¡rio especificar uma profissÃ£o" required="true"/>
+
+                                <h:outputLabel/>
+                                <p:commandButton value="Adicionar" update=":formularioCadastroProfissional:selectProfissoes" action="#{managedProfissionalBean.resetProfissao()}">
+                                    <p:collector value="#{managedProfissionalBean.profissao}" addTo="#{managedProfissionalBean.listaProfissoes}" unique="true"/>
+                                </p:commandButton>
+
+                                <h:outputLabel for="selectProfissoes" value="ProfissÃ£o principal: "/>
+                                <p:selectOneMenu id="selectProfissoes">
+                                    <f:selectItem itemLabel="ProfissÃ£o principal" itemValue="#{null}"/>
+                                    <f:selectItems  value="#{managedProfissionalBean.listaProfissoes}" var="profissao" itemValue="#{profissao}" itemLabel="#{profissao}"/>
+                                </p:selectOneMenu>
+
+                                <h:outputLabel for="foto" value="Foto: *"/>
+                                <p:fileUpload id="foto" value="#{managedUsuarioBean.uploadFoto}" dragDropSupport="true" mode="advanced"/>
+
+                                <p:commandButton value="Cadastrar" action="#{managedProfissionalBean.salvar()}"/>
+                            </p:panelGrid>
+                        </h:form>
+                    </p:panel>
+                </ui:define>
+            </ui:composition>
+        </f:view>
+    </h:body>
+</html>

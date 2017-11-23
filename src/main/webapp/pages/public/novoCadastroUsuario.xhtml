@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+
+        <f:view locale="#{localeController.currentLocale}">
+            <ui:composition template="/templates/template.xhtml">
+
+                <ui:define name="opcoesMenu">
+                    <f:facet name="options">
+                        <p:commandButton value="#{msg.cadastrar}" icon="ui-icon-extlink" action="cadastrar"/>
+                        <p:commandButton value="#{msg.entrar}" icon="ui-icon-extlink" action="entrar"/>
+                    </f:facet>
+                </ui:define>
+
+                <ui:define name="body">
+                    <h:form id="formGeral" style="top: 15px;">
+
+                        <p:growl id="growl" sticky="true" showDetail="true"/>
+
+                        <p:wizard flowListener="#{managedUsuarioBean.onFlowProcess}">
+                            <p:tab id="conta" title="#{msg.conta}">
+                                <p:panel header="#{msg.dadosConta}">
+                                    <p:messages />
+                                    <h:panelGrid columns="2" columnClasses="label, value">
+
+                                        <h:outputLabel for="login" value="#{msg.nomeUsuario}: *" />
+                                        <p:inputText id="login" value="#{managedUsuarioBean.usuario.txtLogin}" required="true" label="Lastname"/>
+
+                                        <h:outputLabel for="senha" value="#{msg.senha}: *" />
+                                        <p:password id="senha" value="#{managedUsuarioBean.usuario.txtSenha}" match="senhaConf" required="true" label="Senha" validatorMessage="Ambas as senhas devem ser iguais"/>
+
+                                        <h:outputLabel for="senhaConf" value="#{msg.confirmarSenha}: *" />
+                                        <p:password id="senhaConf"  value="#{managedUsuarioBean.usuario.txtSenha}" required="true" label="Confirmar Senha"/>
+
+                                        <h:outputText value="Skip to last: " />
+                                        <h:selectBooleanCheckbox value="#{managedUsuarioBean.skip}" />
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:tab>
+
+                            <p:tab id="personal" title="#{msg.pessoal}">
+                                <p:panel header="#{msg.dadosPessoal}">
+                                    <p:messages />
+                                    <h:panelGrid columns="2" columnClasses="label, value">
+                                        <h:outputText value="#{msg.nome}: *" />
+                                        <p:inputText value="#{managedUsuarioBean.usuario.txtNome}" required="true" label="Firstname"/>
+
+                                        <h:outputText value="#{msg.dataNascimento}: " />
+                                        <p:inputMask value="#{managedUsuarioBean.usuario.dtNascimento}" mask="99/99/9999" >
+                                            <f:convertDateTime type="date" pattern="dd/mm/yyyy" />
+                                        </p:inputMask>
+
+                                        <h:outputText value="#{msg.cpf}: " />
+                                        <p:inputMask value="#{managedUsuarioBean.usuario.txtCpf}" mask="999.999.999-99" required="true"/>
+
+                                        <h:outputText value="#{msg.email}: *" />
+                                        <p:inputText value="#{managedUsuarioBean.usuario.txtEmail}" required="true" label="#{msg.email}" requiredMessage="Digite o seu email" validatorMessage="Formato de email inválido">
+                                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                        </p:inputText>
+
+                                        <h:outputText value="#{msg.telefone}: " />
+                                        <p:inputMask value="#{managedUsuarioBean.telefone.txtNumTelefone}" mask="(99)99999-9999"/>
+
+                                        <h:outputText value="Skip to last: " />
+                                        <h:selectBooleanCheckbox value="#{managedUsuarioBean.skip}" />
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:tab>
+
+                            <p:tab id="address" title="#{msg.endereco}">
+                                <p:panel id="painelEndereco" header="#{msg.endereco}">
+                                    <p:messages />
+
+                                    <h:panelGrid columns="2" columnClasses="label, value">
+                                        <h:outputText value="#{msg.cep}: " />
+                                        <p:inputMask value="#{managedUsuarioBean.usuario.endTxtCep}" mask="99.999-999" required="true"/>
+
+                                        <h:outputLabel/>
+                                        <p:commandButton value="Pesquisar" icon="ui-icon-search" action="#{managedUsuarioBean.buscaCep}" update=":formGeral:dadosEndereco" />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid id="dadosEndereco" columns="2" columnClasses="label, value">
+                                        <h:outputText value="#{msg.estado}: " />
+                                        <p:inputText value="#{managedUsuarioBean.usuario.endTxtEstado}" disabled="true"/>
+
+                                        <h:outputLabel value="#{msg.cidade}: " />
+                                        <p:inputText value="#{managedUsuarioBean.usuario.endTxtCidade}" disabled="true"/>
+
+                                        <h:outputText value="#{msg.bairro}: " />
+                                        <p:inputText value="#{managedUsuarioBean.usuario.endTxtBairro}" disabled="true"/>
+
+                                        <h:outputText value="#{msg.logradouro}: " />
+                                        <p:inputText value="#{managedUsuarioBean.usuario.endTxtLogradouro}" disabled="true"/>
+
+                                        <h:outputText value="#{msg.numero}: " />
+                                        <p:inputText value="#{managedUsuarioBean.usuario.endNumero}" label="#{msg.numero}"/>
+
+                                        <h:outputText value="#{msg.complemento}: " />
+                                        <p:inputText value="#{managedUsuarioBean.usuario.endTxtComplemento}" />
+
+                                        <h:outputText value="Skip to last: " />
+                                        <h:selectBooleanCheckbox value="#{managedUsuarioBean.skip}" />
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:tab>
+
+                            <p:tab id="confirm" title="#{msg.confirmacao}">
+                                <p:panel header="#{msg.confirmacao}">
+                                    <h:panelGrid id="confirmation" columns="2" columnClasses="grid,grid">
+                                        <h:panelGrid columns="2" columnClasses="label, value">
+                                            <h:outputText value="#{msg.nome}: " />
+                                            <h:outputText value="#{managedUsuarioBean.usuario.txtNome}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="#{msg.dataNascimento}: " />
+                                            <h:outputText value="#{managedUsuarioBean.usuario.dtNascimento}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="#{msg.cpf}: " />
+                                            <h:outputText value="#{managedUsuarioBean.usuario.txtCpf}" styleClass="outputLabel"/>
+
+                                        </h:panelGrid>
+
+                                        <h:panelGrid columns="2" columnClasses="label, value">
+                                            <h:outputText value="#{msg.email}: " />
+                                            <h:outputText value="#{managedUsuarioBean.usuario.txtEmail}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="#{msg.telefone}: " />
+                                            <h:outputText value="#{managedUsuarioBean.telefone.txtNumTelefone}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="#{msg.foto}: " />
+                                            <h:outputText value="#{managedUsuarioBean.usuario.txtFoto}" styleClass="outputLabel"/>
+
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+
+                                    <p:commandButton value="Submit" actionListener="#{managedUsuarioBean.inserir()}" update="growl" process="@this"/>
+                                </p:panel>
+                            </p:tab>
+                        </p:wizard>
+
+                    </h:form>
+
+                    <h:form enctype="multipart/form-data">
+                        <h:outputText value="#{msg.foto}: *" />
+                        <p:fileUpload value="#{managedUsuarioBean.usuario.txtFoto}" mode="simple" />
+                    </h:form>
+                </ui:define>
+            </ui:composition>
+        </f:view>
+    </h:body>
+</html>

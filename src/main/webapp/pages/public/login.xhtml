@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+	<f:view locale="#{localeController.currentLocale}">
+	    <ui:composition template="/templates/template.xhtml">
+
+		<ui:define name="opcoesMenu">
+		    <f:facet name="options">
+			<p:commandButton value="#{msg.cadastrar}" icon="ui-icon-extlink" action="cadastrar"/>
+		    </f:facet>
+		</ui:define>
+
+		<ui:define name="body">
+		    <h:form id="loginForm">
+			<p:growl id="growl" life="3500" autoUpdate="true"/>
+                        <p:panel id="panel" header="#{msg.entrar}">
+			    <h:panelGrid columns="2" cellpadding="5">
+				<h:outputLabel for="usuario" value="#{msg.nomeUsuario}" />
+				<p:inputText id="usuario" value="#{managedLoginBean.usuario}" required="true" label="#{msg.nomeUsuario}" />
+				<h:outputLabel for="senha" value="#{msg.senha}" />
+				<p:password id="senha" value="#{managedLoginBean.senha}" required="true" label="#{msg.senha}" />
+				<h:outputLabel value="Captcha: " />
+				<div class="g-recaptcha" data-sitekey="#{facesContext.externalContext.getInitParameter('PUBLIC_CAPTCHA_KEY')}"/>
+			    </h:panelGrid>
+			    <p:commandButton action="#{managedLoginBean.login()}" value="#{msg.entrar}" ajax="false" update="growl, panel" title="Logar" icon="ui-icon-play" validateClient="true"/> 
+			</p:panel>
+		    </h:form>
+		</ui:define>
+	    </ui:composition>
+	</f:view>
+    </h:body>
+
+</html>

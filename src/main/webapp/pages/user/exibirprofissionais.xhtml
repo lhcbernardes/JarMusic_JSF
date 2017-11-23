@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+	<f:view locale="#{localeController.currentLocale}">
+
+            <ui:define name="opcoesMenu">
+                <f:facet name="options">
+                    <p:commandButton type="button" value="#{msg.sair}" icon="ui-icon-extlink" action="#{managedLogoutBean.logout()}"/>
+                </f:facet>
+            </ui:define>
+
+            <ui:define name="body">
+		<h3>Profissionais</h3>
+		<p:dataTable id="dataTable" var="profissionais" value="#{managedProfissionalBean.listaProfissionais}"
+			     paginator="true" rows="5">
+		    <f:facet name="header">
+			Profissionais
+		    </f:facet>
+
+		    <p:column>
+			<f:facet name="header">
+			    <h:outputText value="IdUsuario" />
+			</f:facet>
+			<h:outputText value="#{managedProfissionalBean.profissao.idUsuario}" />
+		    </p:column>
+
+		    <p:column>
+			<f:facet name="header">
+			    <h:outputText value="Nome" />
+			</f:facet>
+			<h:outputText value="#{managedProfissionalBean.profissao.usuario.txtNome}" />
+		    </p:column>
+
+		    <p:column>
+			<f:facet name="header">
+			    <h:outputText value="Profissao" />
+			</f:facet>
+			<h:outputText value="#{managedProfissionalBean.profissao.txtProfissoes}" />
+		    </p:column>
+		</p:dataTable>
+            </ui:define>
+	</f:view>
+    </h:body>
+
+</html>

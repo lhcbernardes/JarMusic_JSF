@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+	      xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	      xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    
+    <application>   
+	<resource-bundle>
+	    <base-name>br.com.projetoweb.iservice.messages.messages</base-name>
+	    <var>msg</var>
+	</resource-bundle>
+	<locale-config>
+	    <default-locale>pt_BR</default-locale>
+	    <supported-locale>en_US</supported-locale>
+	</locale-config>
+	<message-bundle>
+	    br.com.projetoweb.iservice.messages.messages
+	</message-bundle>      
+    </application>
+    
+    <managed-bean>
+	<managed-bean-name>localeController</managed-bean-name>
+	<managed-bean-class>
+	     br.com.projetoweb.iservice2.messages.LocaleController
+	</managed-bean-class>
+	<managed-bean-scope>session</managed-bean-scope>   
+    </managed-bean>
+    <factory>
+	<exception-handler-factory>
+	    org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
+	</exception-handler-factory>
+        
+	<exception-handler-factory>
+	    org.omnifaces.exceptionhandler.FacesMessageExceptionHandlerFactory
+	</exception-handler-factory>
+    </factory>
+    
+    <navigation-rule>
+        <from-view-id>/*</from-view-id>
+        <navigation-case>
+            <from-outcome>sair</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>        
+        <navigation-case>
+            <from-outcome>inicio</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>        
+    </navigation-rule>
+        
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>entrar</from-outcome>
+            <to-view-id>/pages/public/login.xhtml</to-view-id>
+        </navigation-case>        
+        <navigation-case>
+            <from-outcome>cadastrar</from-outcome>
+            <to-view-id>/pages/public/novoCadastroUsuario.xhtml</to-view-id>
+        </navigation-case>        
+    </navigation-rule>
+        
+    <navigation-rule>
+        <from-view-id>/pages/public/*</from-view-id>
+        <navigation-case>
+            <from-outcome>entrar</from-outcome>
+            <to-view-id>/pages/public/login.xhtml</to-view-id>
+        </navigation-case>        
+        <navigation-case>
+            <from-outcome>cadastrar</from-outcome>
+            <to-view-id>/pages/public/novoCadastroUsuario.xhtml</to-view-id>
+        </navigation-case>              
+    </navigation-rule>
+
+    <validator>
+	<validator-id>converter.CpfValidator</validator-id>
+	<validator-class>br.com.projetoweb.iservice2.beans.CpfValidator</validator-class>
+    </validator>
+
+    <navigation-rule>
+	<from-view-id>/pages/public/login.xhtml</from-view-id>
+	<navigation-case>
+	    <from-outcome>sucesso</from-outcome>
+	    <to-view-id>/pages/user/bemVindo.xhtml</to-view-id>
+	</navigation-case>        
+	<navigation-case>
+	    <from-outcome>falha</from-outcome>
+	    <to-view-id>/pages/public/login.xhtml</to-view-id>
+	</navigation-case>         
+	<navigation-case>
+	    <from-outcome>cancelar</from-outcome>
+	    <to-view-id>/index.xhtml</to-view-id>
+	</navigation-case>       
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/pages/user/bemVindo.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>buscar</from-outcome>
+            <to-view-id>/pages/user/buscarProfissional.xhtml</to-view-id>
+        </navigation-case>        
+        <navigation-case>
+            <from-outcome>cadastroProfissional</from-outcome>
+            <to-view-id>/pages/user/cadastroProfissional.xhtml</to-view-id>
+        </navigation-case>          
+    </navigation-rule>
+        
+</faces-config>
