@@ -1,11 +1,11 @@
 
-package excecao;
+package br.com.projeto.excecoes;
 
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.WebApplicationException;
-import util.LeitorPropriedades;
+import br.com.projeto.util.LeitorPropriedades;
 import webservice.excecao.TradutorMensagemExcecao;
 
 /**

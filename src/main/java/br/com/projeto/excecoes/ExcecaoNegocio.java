@@ -1,5 +1,5 @@
 
-package excecao;
+package br.com.projeto.excecoes;
 
 import javax.ejb.ApplicationException;
 

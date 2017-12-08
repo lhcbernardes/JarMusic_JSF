@@ -1,6 +1,7 @@
 
 package br.com.projeto.domain;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
