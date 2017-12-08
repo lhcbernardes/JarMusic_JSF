@@ -37,7 +37,7 @@ public abstract class GenericDao<Entidade> {
     //Mudar nome
     //Mudar nome
     //Mudar nome
-    @PersistenceContext(unitName = "iservice2_PU")
+    @PersistenceContext(unitName = "jarmusic")
     private EntityManager em;
     
     public EntityManager getEntityManager(){

@@ -99,8 +99,8 @@
             <to-view-id>/pages/user/buscarProfissional.xhtml</to-view-id>
         </navigation-case>        
         <navigation-case>
-            <from-outcome>cadastroProfissional</from-outcome>
-            <to-view-id>/pages/user/cadastroProfissional.xhtml</to-view-id>
+            <from-outcome>cadastro</from-outcome>
+            <to-view-id>/pages/user/cadastroUsuario.xhtml</to-view-id>
         </navigation-case>          
     </navigation-rule>
         

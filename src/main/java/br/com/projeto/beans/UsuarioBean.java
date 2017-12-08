@@ -1,21 +1,14 @@
 
 package br.com.projeto.beans;
 
-import br.com.projeto.domain.Grupo;
-import br.com.projeto.domain.Telefone;
 import br.com.projeto.domain.Usuario;
-import br.com.projeto.repository.GrupoRepository;
 import br.com.projeto.repository.UsuarioRepository;
-import br.com.projeto.util.WebServiceCep;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -36,48 +29,14 @@ public class UsuarioBean implements Serializable {
     @EJB
     private UsuarioRepository usuarioRepository;
     
-    @EJB
-    private GrupoRepository grupoRepository;
-    
-    private final String PATH_FOTO = "C:/Users/Usuario/Documents/Projetos_Github/SourceTree_Projetos/IService/uploads";
-
     private Usuario usuario;
     private List<Usuario> listaUsuarios;
-    private Telefone telefone;
-    private List<Telefone> listaTelefones;
-    private List<String> listaCidades;
-    private List<String> listaEstados;
-    private String estado, cidade;
+
     
     private boolean skip;
 
     public UsuarioBean() {
 
-    }
-
-    @PostConstruct
-    public void constroi() {
-        usuario = new Usuario();
-        telefone = new Telefone();
-        listaTelefones = new ArrayList<>();
-        listaCidades = new ArrayList<>();
-        listaEstados = new ArrayList<>();
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
     }
 
     public Usuario getUsuario() {
@@ -96,62 +55,32 @@ public class UsuarioBean implements Serializable {
         this.listaUsuarios = listaUsuarios;
     }
 
-    public Telefone getTelefone() {
-        return telefone;
-    }
 
-    public void setTelefone(Telefone telefone) {
-        this.telefone = telefone;
-    }
-
-    public List<Telefone> getListaTelefones() {
-        return listaTelefones;
-    }
-
-    public void setListaTelefones(List<Telefone> listaTelefones) {
-        this.listaTelefones = listaTelefones;
-    }
-
-    public List<String> getListaCidades() {
-        return listaCidades;
-    }
-
-    public void setListaCidades(List<String> listaCidades) {
-        this.listaCidades = listaCidades;
-    }
-
-    public List<String> getListaEstados() {
-        return listaEstados;
-    }
-
-    public void setListaEstados(List<String> listaEstados) {
-        this.listaEstados = listaEstados;
-    }
-
-    public void inserir() {
-
-        String successMsg = "Usuário inserido com sucesso!";
-        String errorMsg = "Erro ao inserir o usuário. Por favor, tente novamente.";
-        
-        try {
-            usuario.setGrupo(grupoRepository.getGrupo(Grupo.GRUPO_POR_NOME, new String[]{Usuario.USUARIO}));
-            Usuario usuarioRetorno = usuarioRepository.atualizar(usuario);
-            
-            if(usuario.getCaminhoFoto() != null){
-                //Pega o caminho do arvuido temporário e associa a origem
-                Path origem = Paths.get(usuario.getCaminhoFoto());
-                Path destino = Paths.get(PATH_FOTO + usuarioRetorno.getIdUsuario() + ".png");
-            
-                Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
-            }
-
-            Messages.addGlobalInfo(successMsg);
-        } catch (RuntimeException | IOException ex) {
-
-            Messages.addGlobalError(errorMsg);
-            System.out.println("Error: " + ex.getMessage());
-        }
-    }
+//    public void inserir() {
+//
+//        String successMsg = "Usuário inserido com sucesso!";
+//        String errorMsg = "Erro ao inserir o usuário. Por favor, tente novamente.";
+//        
+//        try {
+//            usuario.setGrupo(grupoRepository.getGrupo(Grupo.GRUPO_POR_NOME, new String[]{Usuario.USUARIO}));
+//            Usuario usuarioRetorno = usuarioRepository.atualizar(usuario);
+//            
+//            if(usuario.getCaminhoFoto() != null)
+//            {
+//                //Pega o caminho do arvuido temporário e associa a origem
+//                Path origem = Paths.get(usuario.getCaminhoFoto());
+//                Path destino = Paths.get(PATH_FOTO + usuarioRetorno.getIdUsuario() + ".png");
+//            
+//                Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
+//            }
+//
+//            Messages.addGlobalInfo(successMsg);
+//        } catch (RuntimeException | IOException ex) {
+//
+//            Messages.addGlobalError(errorMsg);
+//            System.out.println("Error: " + ex.getMessage());
+//        }
+//    }
 
     public void atualizar(ActionEvent evento) {
         usuario = (Usuario) evento.getComponent().getAttributes().get("usuarioSelecionado");
@@ -166,9 +95,9 @@ public class UsuarioBean implements Serializable {
             usuario = (Usuario) evento.getComponent().getAttributes().get("usuarioSelecionado");
             usuarioRepository.remover(usuario);
             
-            //Remove a foto
-            Path caminhoArquivo = Paths.get(PATH_FOTO + usuario.getIdUsuario() + ".png");
-            Files.deleteIfExists(caminhoArquivo);
+//            //Remove a foto
+//            Path caminhoArquivo = Paths.get(PATH_FOTO + usuario.getIdUsuario() + ".png");
+//            Files.deleteIfExists(caminhoArquivo);
 
             Messages.addGlobalInfo(successMsg);
         } catch (Exception ex) {
@@ -193,7 +122,7 @@ public class UsuarioBean implements Serializable {
     
     public String autenticar(){
         try{
-            String resultado = usuarioRepository.autenticar(usuario.getTxtLogin(), usuario.getTxtSenha());
+            String resultado = usuarioRepository.autenticar(usuario.getNome(), usuario.getSenha());
             
             if(resultado.equalsIgnoreCase("sucesso")){
                 return "sucesso";
@@ -225,7 +154,7 @@ public class UsuarioBean implements Serializable {
             Files.copy(arquivo.getInputstream(), arquivoTemporario, StandardCopyOption.REPLACE_EXISTING);
             
             //Salvamos o caminho da foto (já existente  no pc), na nossa variável
-            usuario.setCaminhoFoto(arquivoTemporario.toString());
+//            usuario.setCaminhoFoto(arquivoTemporario.toString());
             
             Messages.addGlobalInfo("Upload realizado com sucesso");
             
@@ -235,38 +164,24 @@ public class UsuarioBean implements Serializable {
         }
     }
     
-    public void buscaCep() {
-
-        WebServiceCep webServiceCep = WebServiceCep.searchCep(usuario.getEndTxtCep());
-
-        if (webServiceCep.wasSuccessful()) {
-
-            usuario.setEndTxtLogradouro(webServiceCep.getLogradouroFull());
-            usuario.setEndTxtCidade(webServiceCep.getCidade());
-            usuario.setEndTxtEstado(webServiceCep.getUf());
-            usuario.setEndTxtBairro(webServiceCep.getBairro());
-
-            Messages.addGlobalInfo("Cep encontrado!");
-        } else {
-            
-            Messages.addGlobalError("Cep não encontrado");
-        }
-    }
+//    public void buscaCep() {
+//
+//        WebServiceCep webServiceCep = WebServiceCep.searchCep(usuario.getEndTxtCep());
+//
+//        if (webServiceCep.wasSuccessful()) {
+//
+//            usuario.setEndTxtLogradouro(webServiceCep.getLogradouroFull());
+//            usuario.setEndTxtCidade(webServiceCep.getCidade());
+//            usuario.setEndTxtEstado(webServiceCep.getUf());
+//            usuario.setEndTxtBairro(webServiceCep.getBairro());
+//
+//            Messages.addGlobalInfo("Cep encontrado!");
+//        } else {
+//            
+//            Messages.addGlobalError("Cep não encontrado");
+//        }
+//    }
     
-    public void listaEstados(){
-        listaEstados = usuarioRepository.buscaEstados();
-    }
-    
-    public void listaCidades(){
-        listaEstados = usuarioRepository.buscaCidades(estado);
-    }
-    
-    public void onEstadoChange() {
-        if(estado != null && !estado.equals(""))
-            listaCidades();
-        else
-            listaCidades = new ArrayList<>();
-    }
     
     public String onFlowProcess(FlowEvent event) {
         if(skip) {

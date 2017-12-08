@@ -1,4 +1,5 @@
 
+
 package br.com.projeto.repository;
 
 import br.com.projeto.domain.Usuario;
@@ -25,7 +26,7 @@ public class UsuarioRepository extends GenericDao<Usuario>{
         //mudar
         //mudar
         //mudar
-        String sql = "FROM Usuario u WHERE u.txtLogin = " + login + " and u.txtSenha = " + senha;
+        String sql = "FROM Usuario u WHERE u.TXT_NOME = " + login + " and u.TXT_SENHA = " + senha;
         
         Usuario usuario = null;
         usuario = (Usuario) entityManager.createQuery(sql).getSingleResult();
@@ -43,10 +44,10 @@ public class UsuarioRepository extends GenericDao<Usuario>{
         //mudar
         //mudar
         //mudar
-    public List<String> buscaEstados(){
+    public List<String> buscaMusica(){
         EntityManager entityManager = getEntityManager();
         
-        String sql = " DISTINCT u.endTxtEstado From Usuario u";
+        String sql = " DISTINCT u.endTxtEstado From Musica u";
         
         return entityManager.createQuery(sql).getResultList();
     }
@@ -56,10 +57,18 @@ public class UsuarioRepository extends GenericDao<Usuario>{
         //mudar
         //mudar
         //mudar
-    public List<String> buscaCidades(String estado){
+    public List<String> buscaPlaylist(String estado){
         EntityManager entityManager = getEntityManager();
         
-        String sql = " DISTINCT u.endTxtCidade From Usuario u WHERE u.endTxtEstado like " + estado;
+        String sql = " DISTINCT u.endTxtCidade From Playlist u WHERE u.endTxtEstado like " + estado;
+        
+        return entityManager.createQuery(sql).getResultList();
+    }
+    
+    public List<String> buscaArtista(String estado){
+        EntityManager entityManager = getEntityManager();
+        
+        String sql = " DISTINCT u.endTxtCidade From Playlist u WHERE u.endTxtEstado like " + estado;
         
         return entityManager.createQuery(sql).getResultList();
     }
