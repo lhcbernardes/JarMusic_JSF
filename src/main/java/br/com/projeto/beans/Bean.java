@@ -6,8 +6,8 @@
 package br.com.projeto.beans;
 
 import br.com.projeto.domain.Entidade;
-import excecao.ExcecaoNegocio;
-import excecao.MensagemExcecao;
+import br.com.projeto.excecoes.ExcecaoNegocio;
+import br.com.projeto.excecoes.MensagemExcecao;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
