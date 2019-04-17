@@ -1,5 +1,5 @@
 # JarMusic_JSF
 
-Projeto destinado a disciplina de DESCORP
+Projeto destinado a disciplina de DESCORP, visa criar um sistema semelhante ao Spotify.
 
-Projeto comtempla as seguintes tecnologias: JAVA, JSF, Hibernate, Eclipse Link, Glassfish e MySQL.
+Projeto contempla as seguintes tecnologias: JAVA, JSF, Hibernate, Eclipse Link, Glassfish e MySQL.
